@@ -2,7 +2,7 @@
 
 ### API Details
 
-With Spring Boot, there is a few ways to obfiscate secrets without using a dependency to handle them.  With our current app's structure, we get to chose between two options:
+With Spring Boot, there is a few ways to obfiscate secrets without using a dependency to handle them. With our current app's structure, we get to chose between two options:
 
 - [Environment Variables](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-environment-variables)
 - Instantiation of an object that holds the secrets but is NOT PUSHED to the repository.
@@ -20,6 +20,31 @@ In the repository, we have a file named ApiDetails.java. This is an Interface th
 5. Add the annotation @Bean to the getApiDetails method to make it available to the application
 
 ### ApiDetailsImpl.java Example
+
 ![alt text](image.png)
 
 ## REMEMBER TO VERIFY THAT APIDETAILSIMPL IS NOT PUSHED TO THE REPOSITORY
+
+### Code Snippet
+
+```java
+@Service
+@Configuration
+public class ApiDetailsImpl implements ApiDetails {
+
+  private String apiId;
+  private String apiKey;
+
+  public ApiDetailsImpl() {
+    this.apiId = "YOUR API ID";
+    this.apiKey = "YOUR API KEY";
+  }
+
+  @Bean
+  @Override
+  public String getApiDetails() {
+    return "?app_id=" + this.apiId + "&app_key=" + this.apiKey + "&type=public";
+  }
+
+}
+```
